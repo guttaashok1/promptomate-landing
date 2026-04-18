@@ -12,52 +12,50 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Promptomate" />
   <meta name="twitter:description" content="Playwright tests written in English. Self-healing." />
-  <link rel="preconnect" href="https://rsms.me/">
-  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,300..500;1,300..500&family=PT+Mono&display=swap" rel="stylesheet">
   <style>
-    @supports (font-variation-settings: normal) {
-      :root { font-family: 'Inter var', -apple-system, BlinkMacSystemFont, sans-serif; }
-    }
     :root {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
     }
     :root {
       color-scheme: light dark;
       --bg: #ffffff;
-      --surface: #f9fafb;
-      --surface-2: #f3f4f6;
-      --text: #0b0d10;
+      --surface: #f8f7f4;
+      --surface-2: #f0efe9;
+      --text: #111111;
       --muted: #6b7280;
-      --border: #e5e7eb;
-      --border-strong: #d1d5db;
-      --accent: #3b5bdb;
+      --border: #e2e0db;
+      --border-strong: #ccc9c2;
+      --accent: #8b5cf6;
       --accent-2: #7c3aed;
-      --accent-hover: #2948c4;
-      --code-bg: #0b0d10;
-      --code-text: #e4e6eb;
-      --ok: #059669;
+      --accent-hover: #7c3aed;
+      --code-bg: #111111;
+      --code-text: #f8f7f4;
+      --ok: #16a34a;
       --fail: #dc2626;
       --warn: #d97706;
-      --gradient: linear-gradient(135deg, #3b5bdb 0%, #7c3aed 100%);
-      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.08);
-      --shadow-md: 0 4px 6px rgba(0,0,0,0.05), 0 10px 15px rgba(0,0,0,0.08);
-      --shadow-lg: 0 10px 25px rgba(0,0,0,0.08), 0 20px 40px rgba(0,0,0,0.12);
+      --gradient: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 2px 4px rgba(0,0,0,0.04), 0 6px 12px rgba(0,0,0,0.07);
+      --shadow-lg: 0 4px 16px rgba(0,0,0,0.07), 0 12px 32px rgba(0,0,0,0.10);
     }
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #0b0d10;
-        --surface: #14171c;
-        --surface-2: #1c2027;
-        --text: #e4e6eb;
+        --bg: #111111;
+        --surface: #1a1916;
+        --surface-2: #232220;
+        --text: #f8f7f4;
         --muted: #9ca3af;
-        --border: #2a2f36;
-        --border-strong: #3a3f47;
-        --accent: #6b83ea;
-        --accent-2: #9d6ff3;
-        --accent-hover: #7d93ea;
-        --code-bg: #06080b;
-        --code-text: #e4e6eb;
-        --ok: #34d399;
+        --border: #2e2c28;
+        --border-strong: #3d3b36;
+        --accent: #a78bfa;
+        --accent-2: #8b5cf6;
+        --accent-hover: #c4b5fd;
+        --code-bg: #0a0a0a;
+        --code-text: #f8f7f4;
+        --ok: #4ade80;
         --fail: #f87171;
         --warn: #fbbf24;
       }
@@ -66,19 +64,27 @@
     html, body { margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'Inter var', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-      font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11', 'ss01';
-      background: var(--bg);
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      font-weight: 400;
+      background-color: var(--bg);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.028'/%3E%3C/svg%3E");
       color: var(--text);
-      line-height: 1.6;
+      line-height: 1.65;
       font-size: 16px;
       -webkit-font-smoothing: antialiased;
-      letter-spacing: -0.011em;
+      letter-spacing: 0;
     }
-    h1, h2, h3, h4 { letter-spacing: -0.025em; font-feature-settings: 'ss01', 'cv11'; }
+    h1, h2, h3, h4 {
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      letter-spacing: -0.025em;
+      font-weight: 700;
+    }
+    code, pre, .install-inline, .terminal, .example-body {
+      font-family: 'PT Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    }
     .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
     a { color: var(--accent); }
-    code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.9em; background: var(--surface-2); padding: 2px 6px; border-radius: 4px; }
+    code { font-family: 'PT Mono', ui-monospace, 'SF Mono', Menlo, monospace; font-size: 0.875em; background: var(--surface-2); padding: 2px 6px; border-radius: 4px; }
 
     /* ── Header ─────────────────────────────── */
     header {
@@ -91,7 +97,7 @@
       z-index: 100;
     }
     header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-    .logo { font-weight: 700; font-size: 18px; text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 8px; }
+    .logo { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 18px; text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 8px; letter-spacing: -0.01em; }
     .logo-mark {
       width: 28px; height: 28px; border-radius: 8px;
       background: var(--gradient);
@@ -161,7 +167,7 @@
     .install-inline {
       display: flex; align-items: center; gap: 8px;
       background: var(--code-bg); color: var(--code-text);
-      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-family: 'PT Mono', ui-monospace, 'SF Mono', Menlo, monospace;
       font-size: 14px; padding: 14px 18px; border-radius: 10px;
       margin-bottom: 20px; box-shadow: var(--shadow-md);
     }
@@ -200,7 +206,7 @@
       background: var(--code-bg); border-radius: 12px;
       box-shadow: var(--shadow-lg);
       overflow: hidden;
-      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-family: 'PT Mono', ui-monospace, 'SF Mono', Menlo, monospace;
       font-size: 13px;
       border: 1px solid #1f2937;
     }
@@ -243,8 +249,8 @@
       margin-bottom: 12px;
     }
     .section-title h2 {
-      font-size: 40px; letter-spacing: -0.02em;
-      font-weight: 700; margin: 0 0 12px;
+      font-size: 40px; letter-spacing: -0.03em;
+      font-weight: 800; margin: 0 0 12px;
     }
     .section-title p {
       font-size: 17px; color: var(--muted); max-width: 640px; margin: 0 auto;
@@ -265,6 +271,11 @@
     .problem-icon { font-size: 28px; margin-bottom: 12px; }
     .problem-card h3 { margin: 0 0 8px; font-size: 18px; font-weight: 600; }
     .problem-card p { margin: 0; color: var(--muted); font-size: 14.5px; line-height: 1.6; }
+    .problem-stat {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 54px; font-weight: 800; color: var(--fail);
+      letter-spacing: -0.04em; line-height: 1; margin-bottom: 8px;
+    }
 
     /* ── Advantages ─────────────────────────── */
     .advantages { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
@@ -285,6 +296,20 @@
     }
     .advantage-body h3 { margin: 0 0 6px; font-size: 17px; font-weight: 600; }
     .advantage-body p { margin: 0; color: var(--muted); font-size: 14.5px; line-height: 1.6; }
+    .three-pillars {
+      display: flex; align-items: stretch; justify-content: center;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden; margin-bottom: 40px;
+    }
+    .pillar { flex: 1; padding: 24px 20px; text-align: center; }
+    .pillar-icon { display: block; font-size: 26px; margin-bottom: 8px; }
+    .pillar-label { display: block; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+    .pillar-sub { display: block; font-size: 12px; color: var(--muted); }
+    .pillar-divider { width: 1px; background: var(--border); flex-shrink: 0; align-self: stretch; }
+    @media (max-width: 640px) {
+      .three-pillars { flex-direction: column; }
+      .pillar-divider { width: 100%; height: 1px; }
+    }
 
     /* ── How it works ───────────────────────── */
     .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
@@ -324,7 +349,7 @@
       color: var(--accent); text-transform: none;
     }
     .example-body {
-      padding: 20px; font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      padding: 20px; font-family: 'PT Mono', ui-monospace, 'SF Mono', Menlo, monospace;
       font-size: 13px; line-height: 1.7; color: #e4e6eb;
       white-space: pre-wrap; word-break: break-word; flex: 1;
     }
@@ -448,7 +473,7 @@
       display: inline-flex; align-items: center; gap: 8px;
       background: rgba(0,0,0,0.3); color: white;
       padding: 14px 22px; border-radius: 10px;
-      font-family: ui-monospace, monospace; font-size: 14px;
+      font-family: 'PT Mono', ui-monospace, monospace; font-size: 14px;
       border: 1px solid rgba(255,255,255,0.15);
       margin-bottom: 20px;
     }
@@ -529,29 +554,29 @@
     <div class="wrap">
       <div class="section-title">
         <div class="eyebrow" style="color: var(--fail);">The problem</div>
-        <h2>QA teams spend most of their week on tests, not on testing.</h2>
-        <p>We watched this pattern at every team, every sprint. The tools meant to save time are what cost most of it.</p>
+        <h2>Your test suite is eating your sprint. Every sprint.</h2>
+        <p>The tools meant to save time became the thing that costs most of it. Here's the pattern we see at every team.</p>
       </div>
       <div class="problems">
         <div class="problem-card">
-          <div class="problem-icon">⏱️</div>
-          <h3>60% of QA time goes to maintenance</h3>
-          <p>A button gets renamed. A form gets restructured. Half the suite goes red. Engineers spend sprint after sprint updating locators instead of catching real bugs.</p>
+          <div class="problem-stat">60%</div>
+          <h3>of QA time goes to maintenance, not testing</h3>
+          <p>A button gets renamed. A form gets restructured. Half the suite goes red. Engineers spend sprint after sprint chasing locators instead of catching real bugs.</p>
         </div>
         <div class="problem-card">
           <div class="problem-icon">🚧</div>
-          <h3>Non-engineers can't contribute</h3>
-          <p>The person who knows the product best — the PM, the designer — can't add a test. They file a ticket and wait. Critical flows stay uncovered.</p>
+          <h3>The people who know your product can't write tests</h3>
+          <p>The PM who lives in the product, the designer who owns the flow — they can't add a test. They file a ticket and wait. Critical user journeys stay permanently uncovered.</p>
         </div>
         <div class="problem-card">
           <div class="problem-icon">🤷</div>
-          <h3>"Is this red test a real bug?"</h3>
-          <p>Every morning a Slack thread asks if the failing CI run is a legit regression or just flaky selectors. Hours of judgment calls that should be automated.</p>
+          <h3>Red CI? Nobody knows if it's real</h3>
+          <p>Every morning a Slack thread asks: real regression, flaky selector, or DOM drift? Hours of guesswork per red run — for a question that should have an instant answer.</p>
         </div>
         <div class="problem-card">
-          <div class="problem-icon">💸</div>
-          <h3>AI testing tools cost $5k+/month</h3>
-          <p>Testim, Mabl, Tricentis — closed source, proprietary cloud, seat licensing. Your tests live in their UI, your data lives on their servers, you're locked in forever.</p>
+          <div class="problem-stat">$5k+</div>
+          <h3>per month for AI testing tools — with full lock-in</h3>
+          <p>Testim, Mabl, Tricentis — closed source, proprietary cloud, seat licensing. Your tests live in their UI, your data on their servers, and switching costs are catastrophic.</p>
         </div>
       </div>
     </div>
@@ -562,50 +587,69 @@
     <div class="wrap">
       <div class="section-title">
         <div class="eyebrow">The advantage</div>
-        <h2>Everything you need, none of the lock-in.</h2>
-        <p>Promptomate sits at the intersection of <strong>open source</strong>, <strong>AI-powered</strong>, and <strong>local-first</strong> — the only tool that does all three.</p>
+        <h2>Open source. AI-powered. Local-first.<br>The only tool that does all three.</h2>
+        <p>Every other AI test tool is a $5k/mo cloud product. Promptomate runs on your machine, commits to your repo, and costs $0.25 per test — not per seat.</p>
+      </div>
+      <div class="three-pillars">
+        <div class="pillar">
+          <span class="pillar-icon">🔓</span>
+          <span class="pillar-label">Open source</span>
+          <span class="pillar-sub">MIT · fork it, audit it, own it</span>
+        </div>
+        <div class="pillar-divider"></div>
+        <div class="pillar">
+          <span class="pillar-icon">🧠</span>
+          <span class="pillar-label">AI-powered</span>
+          <span class="pillar-sub">Claude Opus 4.7 drives real browsers</span>
+        </div>
+        <div class="pillar-divider"></div>
+        <div class="pillar">
+          <span class="pillar-icon">🏠</span>
+          <span class="pillar-label">Local-first</span>
+          <span class="pillar-sub">your code, your CI, your API key</span>
+        </div>
       </div>
       <div class="advantages">
         <div class="advantage">
           <div class="advantage-icon">🧠</div>
           <div class="advantage-body">
-            <h3>Write tests in English</h3>
-            <p>No more translating "user logs in and sees dashboard" into locator syntax. Describe the scenario. Claude drives your browser and writes the spec.</p>
+            <h3>Write tests in plain English</h3>
+            <p>"Log in as standard_user, add a backpack, verify the cart badge shows 1." That's the test. Claude drives a real browser and writes the Playwright spec for you.</p>
           </div>
         </div>
         <div class="advantage">
           <div class="advantage-icon">🩹</div>
           <div class="advantage-body">
-            <h3>Tests that fix themselves</h3>
-            <p>UI changes? Locators get auto-healed against the live DOM. Your CI stays green without anyone touching the spec files.</p>
+            <h3>Tests that heal themselves</h3>
+            <p>Button renamed? Form restructured? Run <code>promptomate heal</code> and broken locators are re-resolved against the live DOM — no spec file touched by hand.</p>
           </div>
         </div>
         <div class="advantage">
           <div class="advantage-icon">🎯</div>
           <div class="advantage-body">
-            <h3>CI that knows the difference</h3>
-            <p>AI classifies every failure — <strong>real bug, flake, or DOM drift</strong> — with confidence + the exact fix. No more guessing which red tests actually block merge.</p>
+            <h3>CI that explains every failure</h3>
+            <p>Every red test gets a verdict: <strong>real bug, flake, or DOM drift</strong> — with a confidence score and the exact fix. Your PR comment tells the team what actually blocks merge.</p>
           </div>
         </div>
         <div class="advantage">
           <div class="advantage-icon">🔓</div>
           <div class="advantage-body">
-            <h3>Your code. Your CI. Your API key.</h3>
-            <p>MIT licensed. Runs fully local. Generated specs are standard Playwright TypeScript you commit to your repo. Zero vendor lock-in, ever.</p>
+            <h3>Zero lock-in, forever</h3>
+            <p>MIT licensed. Runs fully local. Output is standard Playwright TypeScript committed to your own repo. No proprietary runtime, no vendor dashboard, no exit tax.</p>
           </div>
         </div>
         <div class="advantage">
           <div class="advantage-icon">💰</div>
           <div class="advantage-body">
-            <h3>~$0.25 per test, not $5k/month</h3>
-            <p>BYO Anthropic key. Typical generation cost: $0.02 (Haiku) to $0.25 (Opus). Cap spend with <code>--max-cost</code>. Every command shows you exactly what it cost.</p>
+            <h3>$0.25 per test — not $5k per month</h3>
+            <p>Bring your Anthropic key. Typical cost: $0.02 (Haiku) to $0.25 (Opus 4.7). Set a hard budget with <code>--max-cost</code>. Every run prints its exact spend.</p>
           </div>
         </div>
         <div class="advantage">
           <div class="advantage-icon">👥</div>
           <div class="advantage-body">
-            <h3>Works for the whole team</h3>
-            <p>CLI for engineers. Web UI for PMs and designers. GitHub Action for CI. Everyone uses the same tool and the same test suite.</p>
+            <h3>Built for the whole team</h3>
+            <p>CLI for engineers. Web UI for PMs and designers. GitHub Action for CI. One tool, one test suite — everyone contributes, no one needs to write code.</p>
           </div>
         </div>
       </div>

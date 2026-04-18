@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Promptomate — Playwright tests written in English. Self-healing.</title>
+  <meta name="description" content="Describe web tests in plain English. Self-heal when the UI changes. CI that tells you which red tests are real bugs. Open source, AI-powered, local-first." />
+  <meta property="og:title" content="Promptomate" />
+  <meta property="og:description" content="Playwright tests written in English. Self-heal when the UI changes." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://promptomate.dev" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Promptomate" />
+  <meta name="twitter:description" content="Playwright tests written in English. Self-healing." />
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #ffffff;
+      --surface: #fafafa;
+      --text: #0b0d10;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --code-bg: #0b0d10;
+      --code-text: #e4e6eb;
+      --ok: #059669;
+      --fail: #dc2626;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0b0d10;
+        --surface: #14171c;
+        --text: #e4e6eb;
+        --muted: #9ca3af;
+        --border: #2a2f36;
+        --accent: #3b82f6;
+        --accent-hover: #60a5fa;
+        --code-bg: #06080b;
+        --code-text: #e4e6eb;
+        --ok: #34d399;
+        --fail: #f87171;
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 16px;
+    }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+    /* Header */
+    header {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0;
+      background: color-mix(in srgb, var(--bg) 90%, transparent);
+      backdrop-filter: blur(8px);
+      z-index: 10;
+    }
+    header .wrap { display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-weight: 700; font-size: 18px; text-decoration: none; color: var(--text); }
+    .logo span { font-size: 22px; margin-right: 6px; }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-left: 24px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    nav a:hover { color: var(--text); }
+    nav .btn {
+      background: var(--text);
+      color: var(--bg);
+      padding: 8px 16px;
+      border-radius: 8px;
+      margin-left: 16px;
+    }
+
+    /* Hero */
+    .hero { padding: 80px 0 60px; text-align: center; }
+    .hero h1 {
+      font-size: 56px;
+      line-height: 1.1;
+      margin: 0 0 24px;
+      letter-spacing: -0.02em;
+      font-weight: 800;
+      background: linear-gradient(180deg, var(--text) 0%, color-mix(in srgb, var(--text) 70%, transparent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero .tag {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 12%, transparent);
+      padding: 6px 14px;
+      border-radius: 99px;
+      margin-bottom: 24px;
+    }
+    .hero p.lead {
+      font-size: 20px;
+      color: var(--muted);
+      max-width: 720px;
+      margin: 0 auto 40px;
+    }
+    .install {
+      display: inline-block;
+      background: var(--code-bg);
+      color: var(--code-text);
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 14px;
+      padding: 14px 24px;
+      border-radius: 10px;
+      position: relative;
+    }
+    .install::before {
+      content: "$";
+      color: color-mix(in srgb, var(--code-text) 40%, transparent);
+      margin-right: 12px;
+    }
+
+    .cta-row { margin-top: 32px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary, .btn-secondary {
+      display: inline-block;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+      transition: all 0.15s;
+      border: 1px solid transparent;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text);
+      border-color: var(--border);
+    }
+    .btn-secondary:hover { background: var(--border); }
+
+    /* GIF slot */
+    .gif-slot {
+      margin: 60px auto;
+      max-width: 900px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 14px;
+      overflow: hidden;
+    }
+
+    /* Sections */
+    section { padding: 60px 0; border-top: 1px solid var(--border); }
+    section h2 {
+      font-size: 32px;
+      margin: 0 0 40px;
+      letter-spacing: -0.01em;
+      font-weight: 700;
+    }
+
+    /* Features grid */
+    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+    .feature {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+    .feature .icon { font-size: 28px; margin-bottom: 12px; }
+    .feature h3 { margin: 0 0 8px; font-size: 17px; font-weight: 600; }
+    .feature p { margin: 0; color: var(--muted); font-size: 14px; }
+
+    /* Comparison table */
+    .compare { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    th, td {
+      padding: 14px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th { font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+    td.check { text-align: center; font-size: 18px; }
+    .promptomate-col {
+      background: color-mix(in srgb, var(--accent) 8%, transparent);
+      border-left: 2px solid var(--accent);
+      border-right: 2px solid var(--accent);
+    }
+    th.promptomate-col { background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent); border-top: 2px solid var(--accent); }
+
+    /* Install section */
+    .install-steps {
+      background: var(--code-bg);
+      color: var(--code-text);
+      border-radius: 12px;
+      padding: 28px;
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 14px;
+      line-height: 1.8;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .install-steps .comment { color: #6b7280; }
+    .install-steps .prompt { color: #60a5fa; }
+
+    /* Footer */
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+    footer a { color: var(--muted); text-decoration: none; margin: 0 8px; }
+    footer a:hover { color: var(--text); }
+
+    @media (max-width: 720px) {
+      .hero h1 { font-size: 38px; }
+      .hero p.lead { font-size: 17px; }
+      nav a:not(.btn) { display: none; }
+      section { padding: 40px 0; }
+      section h2 { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <a href="/" class="logo"><span>🤖</span>Promptomate</a>
+      <nav>
+        <a href="#features">Features</a>
+        <a href="#compare">Compare</a>
+        <a href="#install">Install</a>
+        <a href="https://github.com/guttaashok1/promptomate" class="btn">GitHub →</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero" style="border-top: none; padding-top: 40px;">
+    <div class="wrap">
+      <div class="tag">v0.1.0 · open source · MIT</div>
+      <h1>Playwright tests, written in English.</h1>
+      <p class="lead">
+        Describe a UI scenario in plain English. Promptomate clicks through your site, writes a real Playwright spec, and self-heals when the UI changes. CI tells you which red tests are real bugs.
+      </p>
+      <div class="install">npm install -g promptomate</div>
+      <div class="cta-row">
+        <a href="https://github.com/guttaashok1/promptomate" class="btn-primary">Star on GitHub</a>
+        <a href="https://www.npmjs.com/package/promptomate" class="btn-secondary">View on npm</a>
+      </div>
+
+      <div class="gif-slot">
+        <!-- Replace with real demo GIF: <img src="/demo.gif" alt="Promptomate demo" /> -->
+        <span>Demo GIF — coming soon (explore → break → triage → heal, 60 sec)</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="wrap">
+      <h2>Everything Playwright, plus the AI it was missing.</h2>
+      <div class="features">
+        <div class="feature">
+          <div class="icon">🧭</div>
+          <h3>Agent-driven exploration</h3>
+          <p>Claude drives a real Chromium through Microsoft's Playwright MCP — navigate, click, hover, drag, fill, tab, network. It figures out multi-step flows, then writes the spec.</p>
+        </div>
+        <div class="feature">
+          <div class="icon">🩹</div>
+          <h3>Self-healing locators</h3>
+          <p>Button renamed? Form restructured? One command re-resolves drifted locators against the current DOM. Or run triage <code>--apply</code> in CI to heal automatically.</p>
+        </div>
+        <div class="feature">
+          <div class="icon">🔎</div>
+          <h3>AI failure triage</h3>
+          <p>When a test fails in CI, Claude classifies it: real bug / flake / DOM drift. The PR comment tells your team which red tests actually block the merge.</p>
+        </div>
+        <div class="feature">
+          <div class="icon">👁️</div>
+          <h3>Visual assertions</h3>
+          <p>"Verify a red error banner appears" — no DOM selector, just a description. Claude Vision judges the screenshot and throws if it doesn't match.</p>
+        </div>
+        <div class="feature">
+          <div class="icon">🔐</div>
+          <h3>Secrets safely</h3>
+          <p><code>${'${VARNAME}'}</code> in your prompt becomes <code>process.env.VARNAME</code> in the generated spec — passwords never land in committed files.</p>
+        </div>
+        <div class="feature">
+          <div class="icon">🔑</div>
+          <h3>Auth fixtures</h3>
+          <p>Log in once, reuse the session across tests. CI runs the auth fixture first, then fans out the rest in parallel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="compare">
+    <div class="wrap">
+      <h2>Why choose Promptomate?</h2>
+      <div class="compare">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Tosca</th>
+              <th>Cypress</th>
+              <th>Playwright</th>
+              <th>Testim</th>
+              <th>Mabl</th>
+              <th class="promptomate-col">Promptomate</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Open source</td>
+              <td class="check">❌</td>
+              <td class="check">✅</td>
+              <td class="check">✅</td>
+              <td class="check">❌</td>
+              <td class="check">❌</td>
+              <td class="check promptomate-col">✅ MIT</td>
+            </tr>
+            <tr>
+              <td>Write tests in English</td>
+              <td class="check">❌</td>
+              <td class="check">❌</td>
+              <td class="check">❌</td>
+              <td class="check">⚠️</td>
+              <td class="check">⚠️</td>
+              <td class="check promptomate-col">✅</td>
+            </tr>
+            <tr>
+              <td>Self-healing locators</td>
+              <td class="check">❌</td>
+              <td class="check">❌</td>
+              <td class="check">❌</td>
+              <td class="check">✅</td>
+              <td class="check">✅</td>
+              <td class="check promptomate-col">✅</td>
+            </tr>
+            <tr>
+              <td>AI failure triage</td>
+              <td class="check">❌</td>
+              <td class="check">❌</td>
+              <td class="check">❌</td>
+              <td class="check">⚠️</td>
+              <td class="check">⚠️</td>
+              <td class="check promptomate-col">✅</td>
+            </tr>
+            <tr>
+              <td>Visual assertions (AI)</td>
+              <td class="check">❌</td>
+              <td class="check">❌</td>
+              <td class="check">❌</td>
+              <td class="check">⚠️</td>
+              <td class="check">⚠️</td>
+              <td class="check promptomate-col">✅</td>
+            </tr>
+            <tr>
+              <td>Editable code output</td>
+              <td class="check">❌</td>
+              <td class="check">✅</td>
+              <td class="check">✅</td>
+              <td class="check">⚠️</td>
+              <td class="check">⚠️</td>
+              <td class="check promptomate-col">✅ TypeScript</td>
+            </tr>
+            <tr>
+              <td>Local-first / BYO key</td>
+              <td class="check">❌</td>
+              <td class="check">⚠️</td>
+              <td class="check">✅</td>
+              <td class="check">❌</td>
+              <td class="check">❌</td>
+              <td class="check promptomate-col">✅</td>
+            </tr>
+            <tr>
+              <td>Price (team of 10)</td>
+              <td>$50k+/yr</td>
+              <td>$0–$900/mo</td>
+              <td>Free</td>
+              <td>$5k+/mo</td>
+              <td>$5k+/mo</td>
+              <td class="promptomate-col"><strong>$0</strong> (BYO key)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="install">
+    <div class="wrap">
+      <h2>Install in 3 commands.</h2>
+      <div class="install-steps">
+        <div><span class="prompt">$</span> npm install -g promptomate</div>
+        <div><span class="prompt">$</span> promptomate quickstart  <span class="comment"># interactive wizard</span></div>
+        <div><span class="prompt">$</span> promptomate explore "log in and see dashboard" --url https://your-app.com</div>
+      </div>
+      <div class="cta-row" style="margin-top: 32px;">
+        <a href="https://github.com/guttaashok1/promptomate#readme" class="btn-primary">Read the docs</a>
+        <a href="https://github.com/guttaashok1/promptomate/releases" class="btn-secondary">Release notes</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div style="margin-bottom: 8px;">
+        <a href="https://github.com/guttaashok1/promptomate">GitHub</a> ·
+        <a href="https://www.npmjs.com/package/promptomate">npm</a> ·
+        <a href="https://github.com/guttaashok1/promptomate/issues">Issues</a> ·
+        <a href="https://github.com/guttaashok1/promptomate/blob/main/PLAN.md">Roadmap</a>
+      </div>
+      <div>Built with Claude and Playwright · MIT license</div>
+    </div>
+  </footer>
+</body>
+</html>

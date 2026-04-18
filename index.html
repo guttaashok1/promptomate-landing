@@ -119,7 +119,7 @@
 
     /* ── Hero ───────────────────────────────── */
     .hero {
-      padding: 96px 0 80px;
+      padding: 60px 0 48px;
       position: relative;
       overflow: hidden;
     }
@@ -133,7 +133,7 @@
       pointer-events: none; z-index: 0;
     }
     .hero .wrap { position: relative; z-index: 1; }
-    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
     @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; gap: 40px; } }
 
     .tag {
@@ -238,10 +238,10 @@
     @keyframes blink { 50% { opacity: 0; } }
 
     /* ── Sections ───────────────────────────── */
-    section { padding: 80px 0; }
+    section { padding: 52px 0; }
     section + section { border-top: 1px solid var(--border); }
     .section-title {
-      text-align: center; margin-bottom: 48px;
+      text-align: center; margin-bottom: 32px;
     }
     .section-title .eyebrow {
       display: inline-block; font-size: 13px; font-weight: 600;
@@ -256,7 +256,7 @@
       font-size: 17px; color: var(--muted); max-width: 640px; margin: 0 auto;
     }
     @media (max-width: 640px) {
-      section { padding: 60px 0; }
+      section { padding: 40px 0; }
       .section-title h2 { font-size: 30px; }
     }
 
@@ -265,7 +265,7 @@
     @media (max-width: 720px) { .problems { grid-template-columns: 1fr; } }
     .problem-card {
       background: var(--bg); border: 1px solid var(--border);
-      border-radius: 14px; padding: 28px; position: relative;
+      border-radius: 14px; padding: 20px; position: relative;
       border-left: 3px solid var(--fail);
     }
     .problem-icon { font-size: 28px; margin-bottom: 12px; }
@@ -281,8 +281,8 @@
     .advantages { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
     @media (max-width: 800px) { .advantages { grid-template-columns: 1fr; } }
     .advantage {
-      display: flex; gap: 20px; align-items: flex-start;
-      padding: 24px; border-radius: 14px;
+      display: flex; gap: 16px; align-items: flex-start;
+      padding: 18px; border-radius: 14px;
       background: var(--surface); border: 1px solid var(--border);
       transition: all 0.2s;
     }
@@ -316,7 +316,7 @@
     @media (max-width: 900px) { .steps { grid-template-columns: 1fr; } }
     .step {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 14px; padding: 28px; position: relative;
+      border-radius: 14px; padding: 20px; position: relative;
       transition: all 0.2s;
     }
     .step:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--accent); }
@@ -382,7 +382,7 @@
     .personas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
     @media (max-width: 900px) { .personas { grid-template-columns: 1fr; } }
     .persona {
-      padding: 32px; border-radius: 14px;
+      padding: 20px; border-radius: 14px;
       background: var(--surface); border: 1px solid var(--border);
     }
     .persona .role { font-size: 24px; margin-bottom: 8px; }
@@ -413,7 +413,7 @@
     @media (max-width: 900px) { .pricing { grid-template-columns: 1fr; } }
     .plan {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 14px; padding: 32px; display: flex; flex-direction: column;
+      border-radius: 14px; padding: 24px; display: flex; flex-direction: column;
     }
     .plan.featured { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 15%, transparent); }
     .plan .plan-tag { font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
@@ -460,10 +460,10 @@
     .final-cta {
       text-align: center;
       background: var(--gradient);
-      padding: 80px 24px;
+      padding: 52px 24px;
       color: white;
       border-radius: 24px;
-      margin: 40px 0;
+      margin: 24px 0;
     }
     .final-cta h2 {
       font-size: 40px; margin: 0 0 12px; font-weight: 800; letter-spacing: -0.02em;
@@ -1072,9 +1072,7 @@ test(<span class="str">"standard_user can log in and see products"</span>,
       <div class="links">
         <a href="https://github.com/guttaashok1/promptomate">GitHub</a> ·
         <a href="https://www.npmjs.com/package/promptomate">npm</a> ·
-        <a href="https://github.com/marketplace/actions/promptomate-ci">Marketplace</a> ·
-        <a href="https://github.com/guttaashok1/promptomate/issues">Issues</a> ·
-        <a href="https://github.com/guttaashok1/promptomate/blob/main/PLAN.md">Roadmap</a>
+        <a href="https://github.com/marketplace/actions/promptomate-ci">GitHub Action</a>
       </div>
       <div>MIT licensed · Built with Claude and Playwright</div>
     </div>

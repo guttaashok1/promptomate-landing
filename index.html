@@ -4,11 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Promptomate — Playwright tests written in English. Self-healing.</title>
-  <meta name="description" content="Describe web tests in plain English. Self-heal when the UI changes. CI that tells you which red tests are real bugs. Open source, AI-powered, local-first." />
+  <meta name="description" content="Describe web tests in plain English. Self-heal when the UI changes. CI tells you which red tests are real bugs. Open source, AI-powered, local-first." />
   <meta property="og:title" content="Promptomate" />
-  <meta property="og:description" content="Playwright tests written in English. Self-heal when the UI changes." />
+  <meta property="og:description" content="Playwright tests written in English. Self-heal when the UI changes. CI that tells you which red tests are real bugs." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://promptomate.dev" />
+  <meta property="og:url" content="https://promptomate-landing.vercel.app" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Promptomate" />
   <meta name="twitter:description" content="Playwright tests written in English. Self-healing." />
@@ -16,307 +16,662 @@
     :root {
       color-scheme: light dark;
       --bg: #ffffff;
-      --surface: #fafafa;
+      --surface: #f9fafb;
+      --surface-2: #f3f4f6;
       --text: #0b0d10;
       --muted: #6b7280;
       --border: #e5e7eb;
-      --accent: #2563eb;
-      --accent-hover: #1d4ed8;
+      --border-strong: #d1d5db;
+      --accent: #3b5bdb;
+      --accent-2: #7c3aed;
+      --accent-hover: #2948c4;
       --code-bg: #0b0d10;
       --code-text: #e4e6eb;
       --ok: #059669;
       --fail: #dc2626;
+      --warn: #d97706;
+      --gradient: linear-gradient(135deg, #3b5bdb 0%, #7c3aed 100%);
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.05), 0 10px 15px rgba(0,0,0,0.08);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.08), 0 20px 40px rgba(0,0,0,0.12);
     }
     @media (prefers-color-scheme: dark) {
       :root {
         --bg: #0b0d10;
         --surface: #14171c;
+        --surface-2: #1c2027;
         --text: #e4e6eb;
         --muted: #9ca3af;
         --border: #2a2f36;
-        --accent: #3b82f6;
-        --accent-hover: #60a5fa;
+        --border-strong: #3a3f47;
+        --accent: #6b83ea;
+        --accent-2: #9d6ff3;
+        --accent-hover: #7d93ea;
         --code-bg: #06080b;
         --code-text: #e4e6eb;
         --ok: #34d399;
         --fail: #f87171;
+        --warn: #fbbf24;
       }
     }
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
       font-size: 16px;
+      -webkit-font-smoothing: antialiased;
     }
-    .wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+    a { color: var(--accent); }
+    code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.9em; background: var(--surface-2); padding: 2px 6px; border-radius: 4px; }
 
-    /* Header */
+    /* ── Header ─────────────────────────────── */
     header {
-      padding: 20px 0;
+      padding: 16px 0;
       border-bottom: 1px solid var(--border);
       position: sticky; top: 0;
-      background: color-mix(in srgb, var(--bg) 90%, transparent);
-      backdrop-filter: blur(8px);
-      z-index: 10;
+      background: color-mix(in srgb, var(--bg) 92%, transparent);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 100;
     }
-    header .wrap { display: flex; align-items: center; justify-content: space-between; }
-    .logo { font-weight: 700; font-size: 18px; text-decoration: none; color: var(--text); }
-    .logo span { font-size: 22px; margin-right: 6px; }
+    header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .logo { font-weight: 700; font-size: 18px; text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 8px; }
+    .logo-mark {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: var(--gradient);
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 15px;
+    }
+    nav { display: flex; align-items: center; gap: 8px; }
     nav a {
-      color: var(--muted);
-      text-decoration: none;
-      margin-left: 24px;
-      font-size: 14px;
-      font-weight: 500;
+      color: var(--muted); text-decoration: none;
+      padding: 8px 14px; font-size: 14px; font-weight: 500;
+      border-radius: 6px;
     }
-    nav a:hover { color: var(--text); }
-    nav .btn {
-      background: var(--text);
-      color: var(--bg);
-      padding: 8px 16px;
-      border-radius: 8px;
-      margin-left: 16px;
+    nav a:hover { color: var(--text); background: var(--surface); }
+    nav .btn-nav {
+      background: var(--text); color: var(--bg);
+      padding: 8px 16px; border-radius: 8px;
     }
+    nav .btn-nav:hover { background: var(--muted); color: var(--bg); }
 
-    /* Hero */
-    .hero { padding: 80px 0 60px; text-align: center; }
-    .hero h1 {
-      font-size: 56px;
-      line-height: 1.1;
-      margin: 0 0 24px;
-      letter-spacing: -0.02em;
-      font-weight: 800;
-      background: linear-gradient(180deg, var(--text) 0%, color-mix(in srgb, var(--text) 70%, transparent) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .hero .tag {
-      display: inline-block;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--accent);
-      background: color-mix(in srgb, var(--accent) 12%, transparent);
-      padding: 6px 14px;
-      border-radius: 99px;
-      margin-bottom: 24px;
-    }
-    .hero p.lead {
-      font-size: 20px;
-      color: var(--muted);
-      max-width: 720px;
-      margin: 0 auto 40px;
-    }
-    .install {
-      display: inline-block;
-      background: var(--code-bg);
-      color: var(--code-text);
-      font-family: ui-monospace, "SF Mono", Menlo, monospace;
-      font-size: 14px;
-      padding: 14px 24px;
-      border-radius: 10px;
+    /* ── Hero ───────────────────────────────── */
+    .hero {
+      padding: 96px 0 80px;
       position: relative;
-    }
-    .install::before {
-      content: "$";
-      color: color-mix(in srgb, var(--code-text) 40%, transparent);
-      margin-right: 12px;
-    }
-
-    .cta-row { margin-top: 32px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .btn-primary, .btn-secondary {
-      display: inline-block;
-      padding: 12px 24px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 15px;
-      text-decoration: none;
-      transition: all 0.15s;
-      border: 1px solid transparent;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: white;
-    }
-    .btn-primary:hover { background: var(--accent-hover); }
-    .btn-secondary {
-      background: var(--surface);
-      color: var(--text);
-      border-color: var(--border);
-    }
-    .btn-secondary:hover { background: var(--border); }
-
-    /* GIF slot */
-    .gif-slot {
-      margin: 60px auto;
-      max-width: 900px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      aspect-ratio: 16 / 9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--muted);
-      font-size: 14px;
       overflow: hidden;
     }
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: -120px; left: 50%;
+      transform: translateX(-50%);
+      width: 1200px; height: 600px;
+      background: radial-gradient(ellipse at center, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    .hero .wrap { position: relative; z-index: 1; }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+    @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; gap: 40px; } }
 
-    /* Sections */
-    section { padding: 60px 0; border-top: 1px solid var(--border); }
-    section h2 {
-      font-size: 32px;
-      margin: 0 0 40px;
-      letter-spacing: -0.01em;
-      font-weight: 700;
+    .tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 600;
+      color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+      padding: 6px 12px; border-radius: 99px;
+      margin-bottom: 24px;
+      border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+    }
+    .tag .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 8px var(--ok); animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    h1 {
+      font-size: 64px; line-height: 1.05; letter-spacing: -0.03em;
+      font-weight: 800; margin: 0 0 20px;
+    }
+    h1 .gradient {
+      background: var(--gradient);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+    }
+    @media (max-width: 640px) { h1 { font-size: 40px; } }
+
+    .lead {
+      font-size: 19px; color: var(--muted);
+      margin: 0 0 32px; max-width: 560px;
     }
 
-    /* Features grid */
-    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+    .install-inline {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--code-bg); color: var(--code-text);
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 14px; padding: 14px 18px; border-radius: 10px;
+      margin-bottom: 20px; box-shadow: var(--shadow-md);
+    }
+    .install-inline::before { content: "$"; color: #6b7280; }
+    .install-inline code { background: transparent; padding: 0; color: var(--code-text); }
+    .install-inline .copy {
+      margin-left: auto; background: transparent; border: 1px solid #374151;
+      color: #9ca3af; padding: 4px 10px; border-radius: 6px; font-size: 12px;
+      cursor: pointer; font-family: inherit;
+    }
+    .install-inline .copy:hover { color: white; border-color: #6b7280; }
+    .install-inline .copy.copied { color: var(--ok); border-color: var(--ok); }
+
+    .cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 22px; border-radius: 8px;
+      font-weight: 600; font-size: 15px;
+      text-decoration: none; transition: all 0.15s;
+      border: 1px solid transparent;
+    }
+    .btn-primary { background: var(--accent); color: white; }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+    .btn-secondary { background: var(--surface); color: var(--text); border-color: var(--border-strong); }
+    .btn-secondary:hover { background: var(--surface-2); }
+
+    .hero-meta {
+      display: flex; gap: 24px; margin-top: 32px; flex-wrap: wrap;
+      color: var(--muted); font-size: 13px;
+    }
+    .hero-meta span { display: inline-flex; align-items: center; gap: 6px; }
+    .hero-meta .check { color: var(--ok); font-weight: 700; }
+
+    /* ── Animated terminal ──────────────────── */
+    .terminal {
+      background: var(--code-bg); border-radius: 12px;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 13px;
+      border: 1px solid #1f2937;
+    }
+    .terminal-bar {
+      background: #1a1f26; padding: 10px 14px;
+      display: flex; align-items: center; gap: 6px;
+      border-bottom: 1px solid #2a2f36;
+    }
+    .terminal-bar .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .terminal-bar .dot.red { background: #ef4444; }
+    .terminal-bar .dot.yellow { background: #eab308; }
+    .terminal-bar .dot.green { background: #22c55e; }
+    .terminal-bar .title { margin-left: 12px; color: #9ca3af; font-size: 12px; }
+    .terminal-body {
+      padding: 20px 22px; color: #e4e6eb;
+      min-height: 380px; line-height: 1.8;
+    }
+    .terminal-body .prompt { color: #60a5fa; }
+    .terminal-body .cmd { color: #e4e6eb; }
+    .terminal-body .ok { color: #34d399; }
+    .terminal-body .fail { color: #f87171; }
+    .terminal-body .muted { color: #6b7280; }
+    .terminal-body .arrow { color: #a78bfa; }
+    .terminal-body .cursor {
+      display: inline-block; width: 8px; height: 15px;
+      background: #e4e6eb; vertical-align: middle; margin-left: 2px;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* ── Sections ───────────────────────────── */
+    section { padding: 80px 0; }
+    section + section { border-top: 1px solid var(--border); }
+    .section-title {
+      text-align: center; margin-bottom: 48px;
+    }
+    .section-title .eyebrow {
+      display: inline-block; font-size: 13px; font-weight: 600;
+      color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+    .section-title h2 {
+      font-size: 40px; letter-spacing: -0.02em;
+      font-weight: 700; margin: 0 0 12px;
+    }
+    .section-title p {
+      font-size: 17px; color: var(--muted); max-width: 640px; margin: 0 auto;
+    }
+    @media (max-width: 640px) {
+      section { padding: 60px 0; }
+      .section-title h2 { font-size: 30px; }
+    }
+
+    /* ── How it works ───────────────────────── */
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    @media (max-width: 900px) { .steps { grid-template-columns: 1fr; } }
+    .step {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 28px; position: relative;
+      transition: all 0.2s;
+    }
+    .step:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--accent); }
+    .step-num {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: var(--gradient); color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 16px; margin-bottom: 16px;
+    }
+    .step h3 { margin: 0 0 8px; font-size: 18px; font-weight: 600; }
+    .step p { margin: 0; color: var(--muted); font-size: 14px; }
+
+    /* ── Prompt → Spec example ──────────────── */
+    .example-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: stretch; }
+    @media (max-width: 900px) { .example-grid { grid-template-columns: 1fr; } }
+    .example-panel {
+      background: var(--code-bg); border-radius: 12px;
+      overflow: hidden; border: 1px solid #1f2937;
+      display: flex; flex-direction: column;
+    }
+    .example-header {
+      padding: 12px 18px; border-bottom: 1px solid #1f2937;
+      font-size: 12px; color: #9ca3af; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .example-header .badge {
+      font-size: 10px; padding: 2px 8px; border-radius: 99px;
+      background: color-mix(in srgb, var(--accent) 20%, transparent);
+      color: var(--accent); text-transform: none;
+    }
+    .example-body {
+      padding: 20px; font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 13px; line-height: 1.7; color: #e4e6eb;
+      white-space: pre-wrap; word-break: break-word; flex: 1;
+    }
+    .example-body .kw { color: #c4b5fd; }
+    .example-body .str { color: #86efac; }
+    .example-body .fn { color: #93c5fd; }
+    .example-body .comment { color: #6b7280; }
+    .example-body .env { color: #fbbf24; }
+
+    /* ── Features ───────────────────────────── */
+    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    @media (max-width: 900px) { .features { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .features { grid-template-columns: 1fr; } }
     .feature {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 24px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px;
+      transition: all 0.2s;
     }
-    .feature .icon { font-size: 28px; margin-bottom: 12px; }
-    .feature h3 { margin: 0 0 8px; font-size: 17px; font-weight: 600; }
+    .feature:hover { border-color: var(--border-strong); transform: translateY(-1px); }
+    .feature .icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: color-mix(in srgb, var(--accent) 12%, transparent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; margin-bottom: 12px;
+    }
+    .feature h3 { margin: 0 0 6px; font-size: 16px; font-weight: 600; }
     .feature p { margin: 0; color: var(--muted); font-size: 14px; }
 
-    /* Comparison table */
-    .compare { overflow-x: auto; }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
+    /* ── Personas ───────────────────────────── */
+    .personas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    @media (max-width: 900px) { .personas { grid-template-columns: 1fr; } }
+    .persona {
+      padding: 32px; border-radius: 14px;
+      background: var(--surface); border: 1px solid var(--border);
     }
-    th, td {
-      padding: 14px 12px;
-      text-align: left;
-      border-bottom: 1px solid var(--border);
-    }
-    th { font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
-    td.check { text-align: center; font-size: 18px; }
-    .promptomate-col {
-      background: color-mix(in srgb, var(--accent) 8%, transparent);
-      border-left: 2px solid var(--accent);
-      border-right: 2px solid var(--accent);
-    }
-    th.promptomate-col { background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent); border-top: 2px solid var(--accent); }
+    .persona .role { font-size: 24px; margin-bottom: 8px; }
+    .persona h4 { margin: 0 0 12px; font-size: 18px; font-weight: 600; }
+    .persona p { margin: 0 0 16px; color: var(--muted); font-size: 14px; }
+    .persona ul { margin: 0; padding: 0; list-style: none; }
+    .persona li { padding: 6px 0; font-size: 13px; color: var(--muted); display: flex; align-items: flex-start; gap: 8px; }
+    .persona li::before { content: "→"; color: var(--accent); flex-shrink: 0; }
 
-    /* Install section */
-    .install-steps {
-      background: var(--code-bg);
-      color: var(--code-text);
-      border-radius: 12px;
-      padding: 28px;
-      font-family: ui-monospace, "SF Mono", Menlo, monospace;
-      font-size: 14px;
-      line-height: 1.8;
-      max-width: 700px;
-      margin: 0 auto;
+    /* ── Compare ────────────────────────────── */
+    .compare-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; background: var(--surface); min-width: 720px; }
+    th, td { padding: 14px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); background: var(--bg); }
+    tr:last-child td { border-bottom: none; }
+    td.check { text-align: center; font-size: 16px; }
+    th.promptomate-col, td.promptomate-col {
+      background: color-mix(in srgb, var(--accent) 6%, transparent);
+      color: var(--text); font-weight: 600;
     }
-    .install-steps .comment { color: #6b7280; }
-    .install-steps .prompt { color: #60a5fa; }
+    th.promptomate-col {
+      background: color-mix(in srgb, var(--accent) 14%, transparent);
+      color: var(--accent);
+    }
 
-    /* Footer */
-    footer {
-      padding: 40px 0;
-      border-top: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 13px;
+    /* ── Pricing ────────────────────────────── */
+    .pricing { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    @media (max-width: 900px) { .pricing { grid-template-columns: 1fr; } }
+    .plan {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 32px; display: flex; flex-direction: column;
+    }
+    .plan.featured { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 15%, transparent); }
+    .plan .plan-tag { font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+    .plan h3 { margin: 0 0 4px; font-size: 20px; font-weight: 700; }
+    .plan .price { font-size: 36px; font-weight: 800; letter-spacing: -0.02em; margin: 16px 0 4px; }
+    .plan .price .unit { font-size: 14px; font-weight: 500; color: var(--muted); }
+    .plan .price-note { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+    .plan ul { list-style: none; padding: 0; margin: 0 0 24px; flex: 1; }
+    .plan li { padding: 7px 0; font-size: 14px; display: flex; gap: 10px; align-items: flex-start; color: var(--text); }
+    .plan li::before { content: "✓"; color: var(--ok); font-weight: 700; flex-shrink: 0; }
+    .plan .plan-btn {
+      text-align: center; padding: 12px; border-radius: 8px;
+      font-weight: 600; font-size: 14px;
+      border: 1px solid var(--border-strong);
+      color: var(--text); text-decoration: none;
+      background: var(--bg);
+    }
+    .plan.featured .plan-btn { background: var(--accent); color: white; border-color: var(--accent); }
+    .plan .plan-btn:hover { filter: brightness(1.08); }
+
+    /* ── FAQ ────────────────────────────────── */
+    .faq { max-width: 760px; margin: 0 auto; }
+    .faq details {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 0; margin-bottom: 12px;
+      transition: all 0.2s;
+    }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary {
+      cursor: pointer; padding: 18px 24px; font-weight: 600; font-size: 15px;
+      display: flex; align-items: center; justify-content: space-between;
+      list-style: none; color: var(--text);
+    }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after {
+      content: "+"; color: var(--muted); font-size: 20px; font-weight: 400;
+      transition: transform 0.2s;
+    }
+    .faq details[open] summary::after { transform: rotate(45deg); }
+    .faq .answer { padding: 0 24px 20px; color: var(--muted); font-size: 14px; line-height: 1.7; }
+    .faq .answer code { font-size: 13px; }
+
+    /* ── Final CTA ──────────────────────────── */
+    .final-cta {
       text-align: center;
+      background: var(--gradient);
+      padding: 80px 24px;
+      color: white;
+      border-radius: 24px;
+      margin: 40px 0;
     }
-    footer a { color: var(--muted); text-decoration: none; margin: 0 8px; }
-    footer a:hover { color: var(--text); }
+    .final-cta h2 {
+      font-size: 40px; margin: 0 0 12px; font-weight: 800; letter-spacing: -0.02em;
+    }
+    .final-cta p { font-size: 17px; opacity: 0.9; margin: 0 0 28px; }
+    .final-cta .install {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,0,0,0.3); color: white;
+      padding: 14px 22px; border-radius: 10px;
+      font-family: ui-monospace, monospace; font-size: 14px;
+      border: 1px solid rgba(255,255,255,0.15);
+      margin-bottom: 20px;
+    }
+    .final-cta .install::before { content: "$"; opacity: 0.5; margin-right: 6px; }
+    .final-cta .cta-row { justify-content: center; }
+    .final-cta .btn-primary { background: white; color: var(--accent); }
+    .final-cta .btn-primary:hover { background: #f3f4f6; }
+    .final-cta .btn-secondary { background: transparent; color: white; border-color: rgba(255,255,255,0.3); }
+    .final-cta .btn-secondary:hover { background: rgba(255,255,255,0.1); }
 
-    @media (max-width: 720px) {
-      .hero h1 { font-size: 38px; }
-      .hero p.lead { font-size: 17px; }
-      nav a:not(.btn) { display: none; }
-      section { padding: 40px 0; }
-      section h2 { font-size: 26px; }
-    }
+    /* ── Footer ─────────────────────────────── */
+    footer { padding: 40px 0; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; text-align: center; }
+    footer .links { margin-bottom: 12px; }
+    footer a { color: var(--muted); text-decoration: none; margin: 0 10px; }
+    footer a:hover { color: var(--text); }
   </style>
 </head>
 <body>
+
+  <!-- Header -->
   <header>
     <div class="wrap">
-      <a href="/" class="logo"><span>🤖</span>Promptomate</a>
+      <a href="/" class="logo">
+        <div class="logo-mark">🤖</div>
+        <span>Promptomate</span>
+      </a>
       <nav>
+        <a href="#how">How it works</a>
         <a href="#features">Features</a>
         <a href="#compare">Compare</a>
-        <a href="#install">Install</a>
-        <a href="https://github.com/guttaashok1/promptomate" class="btn">GitHub →</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a href="https://github.com/guttaashok1/promptomate" class="btn-nav">GitHub →</a>
       </nav>
     </div>
   </header>
 
-  <section class="hero" style="border-top: none; padding-top: 40px;">
+  <!-- Hero -->
+  <section class="hero">
     <div class="wrap">
-      <div class="tag">v0.1.0 · open source · MIT</div>
-      <h1>Playwright tests, written in English.</h1>
-      <p class="lead">
-        Describe a UI scenario in plain English. Promptomate clicks through your site, writes a real Playwright spec, and self-heals when the UI changes. CI tells you which red tests are real bugs.
-      </p>
-      <div class="install">npm install -g promptomate</div>
-      <div class="cta-row">
-        <a href="https://github.com/guttaashok1/promptomate" class="btn-primary">Star on GitHub</a>
-        <a href="https://www.npmjs.com/package/promptomate" class="btn-secondary">View on npm</a>
-      </div>
+      <div class="hero-grid">
+        <div>
+          <div class="tag"><span class="dot"></span> v0.1.0 · MIT licensed · Open source</div>
+          <h1>Playwright tests written in <span class="gradient">English.</span></h1>
+          <p class="lead">
+            Describe a UI scenario. Promptomate drives a real browser, writes a standalone Playwright spec, and self-heals when the UI changes. CI tells you which red tests are real bugs vs flakes vs drift.
+          </p>
+          <div class="install-inline">
+            <code id="install-cmd">npm install -g promptomate</code>
+            <button class="copy" id="copyBtn" onclick="copyInstall()">Copy</button>
+          </div>
+          <div class="cta-row">
+            <a href="https://github.com/guttaashok1/promptomate" class="btn btn-primary">★ Star on GitHub</a>
+            <a href="https://github.com/guttaashok1/promptomate#readme" class="btn btn-secondary">Read the docs →</a>
+          </div>
+          <div class="hero-meta">
+            <span><span class="check">✓</span> Bring your own Claude API key</span>
+            <span><span class="check">✓</span> ~$0.02–$0.25 per test</span>
+            <span><span class="check">✓</span> Runs fully local</span>
+          </div>
+        </div>
 
-      <div class="gif-slot">
-        <!-- Replace with real demo GIF: <img src="/demo.gif" alt="Promptomate demo" /> -->
-        <span>Demo GIF — coming soon (explore → break → triage → heal, 60 sec)</span>
+        <div class="terminal">
+          <div class="terminal-bar">
+            <div class="dot red"></div>
+            <div class="dot yellow"></div>
+            <div class="dot green"></div>
+            <div class="title">promptomate explore</div>
+          </div>
+          <div class="terminal-body" id="term"></div>
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- How it works -->
+  <section id="how">
+    <div class="wrap">
+      <div class="section-title">
+        <div class="eyebrow">How it works</div>
+        <h2>Describe, drive, deploy.</h2>
+        <p>From English scenario to a standalone Playwright spec in under a minute.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>You describe</h3>
+          <p>Write the scenario in English: "log in as standard_user, add a backpack to cart, verify the badge shows 1". No locator syntax, no test framework boilerplate.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Claude drives</h3>
+          <p>An agent opens a real Chromium via Microsoft's Playwright MCP, clicks through your site, fills forms, handles multi-step flows, recovers from failed clicks — then validates the scenario end-to-end.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Spec emerges</h3>
+          <p>A clean TypeScript Playwright spec lands in <code>tests/</code> — semantic locators, meaningful assertions, no MCP dependencies. Ready to run, edit, version, ship to any CI.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Prompt → Spec example -->
+  <section>
+    <div class="wrap">
+      <div class="section-title">
+        <div class="eyebrow">Before &amp; after</div>
+        <h2>One command in. One spec out.</h2>
+        <p>Real example. Generated in 45 seconds for $0.23.</p>
+      </div>
+      <div class="example-grid">
+        <div class="example-panel">
+          <div class="example-header">
+            <span>You type</span>
+            <span class="badge">CLI</span>
+          </div>
+          <div class="example-body"><span class="comment"># in your terminal</span>
+<span class="fn">promptomate</span> explore \
+  <span class="str">"log in as standard_user with password </span><span class="env">${SAUCE_PASSWORD}</span><span class="str"> and verify the Products page appears"</span> \
+  --url <span class="str">https://www.saucedemo.com</span>
+
+<span class="comment"># 45 sec later...</span>
+<span class="kw">✓</span> Generated tests/saucedemo-login.spec.ts
+  5 API calls · $0.23 · claude-opus-4-7</div>
+        </div>
+
+        <div class="example-panel">
+          <div class="example-header">
+            <span>You get — tests/saucedemo-login.spec.ts</span>
+            <span class="badge">TypeScript</span>
+          </div>
+          <div class="example-body"><span class="kw">import</span> { test, expect } <span class="kw">from</span> <span class="str">"@playwright/test"</span>;
+
+test(<span class="str">"standard_user can log in and see products"</span>,
+  <span class="kw">async</span> ({ page }) =&gt; {
+    <span class="kw">await</span> page.<span class="fn">goto</span>(<span class="str">"https://www.saucedemo.com"</span>);
+
+    <span class="kw">await</span> page.<span class="fn">getByRole</span>(<span class="str">"textbox"</span>, { name: <span class="str">"Username"</span> })
+      .<span class="fn">fill</span>(<span class="str">"standard_user"</span>);
+    <span class="kw">await</span> page.<span class="fn">getByRole</span>(<span class="str">"textbox"</span>, { name: <span class="str">"Password"</span> })
+      .<span class="fn">fill</span>(<span class="env">process.env.SAUCE_PASSWORD</span> ?? <span class="str">""</span>);
+    <span class="kw">await</span> page.<span class="fn">getByRole</span>(<span class="str">"button"</span>, { name: <span class="str">"Login"</span> })
+      .<span class="fn">click</span>();
+
+    <span class="kw">await</span> <span class="fn">expect</span>(page).<span class="fn">toHaveURL</span>(/\/inventory\.html$/);
+    <span class="kw">await</span> <span class="fn">expect</span>(page.<span class="fn">getByText</span>(<span class="str">"Products"</span>))
+      .<span class="fn">toBeVisible</span>();
+});</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Personas -->
+  <section>
+    <div class="wrap">
+      <div class="section-title">
+        <div class="eyebrow">Built for</div>
+        <h2>The whole team, not just engineers.</h2>
+        <p>First open-source AI testing tool that works for the person who owns the product, not just the person who writes the code.</p>
+      </div>
+      <div class="personas">
+        <div class="persona">
+          <div class="role">🧪</div>
+          <h4>QA engineers</h4>
+          <p>Stop spending 60% of your week patching locators after UI changes.</p>
+          <ul>
+            <li>Self-healing locators on DOM drift</li>
+            <li>AI classifies flake vs drift vs real bug</li>
+            <li>Write tests in English, edit the code if you want</li>
+            <li>Keep your existing Playwright setup</li>
+          </ul>
+        </div>
+        <div class="persona">
+          <div class="role">📋</div>
+          <h4>Product managers</h4>
+          <p>Protect critical user flows without filing an engineering ticket.</p>
+          <ul>
+            <li>Describe a scenario, get a test</li>
+            <li>Web UI — no terminal needed</li>
+            <li>Runs every PR via GitHub Action</li>
+            <li>Know which flows are healthy at a glance</li>
+          </ul>
+        </div>
+        <div class="persona">
+          <div class="role">⚡</div>
+          <h4>Staff engineers</h4>
+          <p>Add test coverage to products where formal QA doesn't exist yet.</p>
+          <ul>
+            <li>Local-first, bring your own API key</li>
+            <li>MIT license — fork it, audit it, ship it</li>
+            <li>PR comments tell CI which red tests block merge</li>
+            <li>~2,000 LoC of TypeScript — no magic</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
   <section id="features">
     <div class="wrap">
-      <h2>Everything Playwright, plus the AI it was missing.</h2>
+      <div class="section-title">
+        <div class="eyebrow">Features</div>
+        <h2>Everything Playwright, plus the AI it was missing.</h2>
+      </div>
       <div class="features">
         <div class="feature">
           <div class="icon">🧭</div>
           <h3>Agent-driven exploration</h3>
-          <p>Claude drives a real Chromium through Microsoft's Playwright MCP — navigate, click, hover, drag, fill, tab, network. It figures out multi-step flows, then writes the spec.</p>
+          <p>Claude drives Chromium via Playwright MCP — clicks, hovers, drags, fills, tabs, network, console. Recovers from failed clicks. Writes a standalone spec.</p>
         </div>
         <div class="feature">
           <div class="icon">🩹</div>
           <h3>Self-healing locators</h3>
-          <p>Button renamed? Form restructured? One command re-resolves drifted locators against the current DOM. Or run triage <code>--apply</code> in CI to heal automatically.</p>
+          <p>Button renamed? One command re-resolves drifted locators against the live DOM. Or run <code>triage --apply</code> in CI to heal automatically.</p>
         </div>
         <div class="feature">
           <div class="icon">🔎</div>
           <h3>AI failure triage</h3>
-          <p>When a test fails in CI, Claude classifies it: real bug / flake / DOM drift. The PR comment tells your team which red tests actually block the merge.</p>
+          <p>When a test fails, Claude classifies: real bug, flake, or DOM drift. The PR comment tells your team which red tests actually block the merge.</p>
         </div>
         <div class="feature">
           <div class="icon">👁️</div>
           <h3>Visual assertions</h3>
-          <p>"Verify a red error banner appears" — no DOM selector, just a description. Claude Vision judges the screenshot and throws if it doesn't match.</p>
+          <p><code>expectVisual(page, "a red error banner")</code> — Claude Vision judges the screenshot. For checks the DOM can't express.</p>
         </div>
         <div class="feature">
           <div class="icon">🔐</div>
-          <h3>Secrets safely</h3>
-          <p><code>${'${VARNAME}'}</code> in your prompt becomes <code>process.env.VARNAME</code> in the generated spec — passwords never land in committed files.</p>
+          <h3>Secrets handled safely</h3>
+          <p><code>${'${VARNAME}'}</code> in your prompt becomes <code>process.env.VARNAME</code> in the generated spec. Passwords never land in committed files.</p>
         </div>
         <div class="feature">
           <div class="icon">🔑</div>
           <h3>Auth fixtures</h3>
-          <p>Log in once, reuse the session across tests. CI runs the auth fixture first, then fans out the rest in parallel.</p>
+          <p>Log in once, reuse the session across tests. CI runs the auth fixture first, then fans out dependents in parallel.</p>
+        </div>
+        <div class="feature">
+          <div class="icon">📊</div>
+          <h3>Cost-aware</h3>
+          <p>Every command prints per-run spend. <code>--max-cost $X</code> aborts runs over budget. Switch to Sonnet or Haiku for 3× to 10× cheaper.</p>
+        </div>
+        <div class="feature">
+          <div class="icon">🌐</div>
+          <h3>Web UI for non-engineers</h3>
+          <p>Point-and-click interface with live agent stream. Run, triage, refine — all from the browser. No terminal.</p>
+        </div>
+        <div class="feature">
+          <div class="icon">📝</div>
+          <h3>PR comments with diff</h3>
+          <p>GitHub Action upserts a single comment per PR with per-test verdicts. Healed specs come with a ready-to-<code>git apply</code> diff.</p>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- Compare -->
   <section id="compare">
     <div class="wrap">
-      <h2>Why choose Promptomate?</h2>
-      <div class="compare">
+      <div class="section-title">
+        <div class="eyebrow">Compare</div>
+        <h2>Why choose Promptomate?</h2>
+        <p>The only tool at the intersection of open source, AI-powered, and local-first.</p>
+      </div>
+      <div class="compare-wrap">
         <table>
           <thead>
             <tr>
@@ -382,7 +737,7 @@
               <td class="check">✅</td>
               <td class="check">⚠️</td>
               <td class="check">⚠️</td>
-              <td class="check promptomate-col">✅ TypeScript</td>
+              <td class="check promptomate-col">✅</td>
             </tr>
             <tr>
               <td>Local-first / BYO key</td>
@@ -408,31 +763,192 @@
     </div>
   </section>
 
-  <section id="install">
+  <!-- Pricing -->
+  <section id="pricing">
     <div class="wrap">
-      <h2>Install in 3 commands.</h2>
-      <div class="install-steps">
-        <div><span class="prompt">$</span> npm install -g promptomate</div>
-        <div><span class="prompt">$</span> promptomate quickstart  <span class="comment"># interactive wizard</span></div>
-        <div><span class="prompt">$</span> promptomate explore "log in and see dashboard" --url https://your-app.com</div>
+      <div class="section-title">
+        <div class="eyebrow">Pricing</div>
+        <h2>Free forever. Pay only the model.</h2>
+        <p>The CLI and GitHub Action are MIT-licensed and free. You bring your Anthropic API key — typical generation cost is ~$0.02 to $0.25 per test.</p>
       </div>
-      <div class="cta-row" style="margin-top: 32px;">
-        <a href="https://github.com/guttaashok1/promptomate#readme" class="btn-primary">Read the docs</a>
-        <a href="https://github.com/guttaashok1/promptomate/releases" class="btn-secondary">Release notes</a>
+      <div class="pricing">
+        <div class="plan featured">
+          <div class="plan-tag">Available now</div>
+          <h3>Open source</h3>
+          <p class="price">$0<span class="unit">/forever</span></p>
+          <p class="price-note">BYO Anthropic key (~$0.02–0.25 per test generation)</p>
+          <ul>
+            <li>All 10 CLI commands</li>
+            <li>Self-hosted web UI</li>
+            <li>GitHub Action for PRs</li>
+            <li>Model choice (Opus / Sonnet / Haiku)</li>
+            <li>Self-healing + triage + visual assertions</li>
+            <li>Run fully offline — your code never leaves your CI</li>
+          </ul>
+          <a href="https://github.com/guttaashok1/promptomate" class="plan-btn">Get started on GitHub →</a>
+        </div>
+        <div class="plan">
+          <div class="plan-tag">Coming soon</div>
+          <h3>Team cloud</h3>
+          <p class="price">$20<span class="unit">/user/mo</span></p>
+          <p class="price-note">Hosted dashboard — no API key management</p>
+          <ul>
+            <li>Shared workspaces</li>
+            <li>Run history + trend charts</li>
+            <li>Team authentication (Google OAuth)</li>
+            <li>Anthropic API included</li>
+            <li>Priority email support</li>
+          </ul>
+          <a href="https://github.com/guttaashok1/promptomate/issues/new?title=Team+cloud+waitlist" class="plan-btn">Join waitlist</a>
+        </div>
+        <div class="plan">
+          <div class="plan-tag">Coming Q3</div>
+          <h3>Business</h3>
+          <p class="price">$100<span class="unit">/user/mo</span></p>
+          <p class="price-note">Regulated teams + enterprise integrations</p>
+          <ul>
+            <li>Jira + Slack + Linear integrations</li>
+            <li>Audit log + scheduled reports</li>
+            <li>SAML SSO</li>
+            <li>Data retention policies</li>
+            <li>Dedicated support</li>
+          </ul>
+          <a href="https://github.com/guttaashok1/promptomate/issues/new?title=Business+tier+interest" class="plan-btn">Contact us</a>
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="section-title">
+        <div class="eyebrow">FAQ</div>
+        <h2>Questions &amp; answers</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>How much does this cost to run?</summary>
+          <div class="answer">
+            The CLI, web UI, and GitHub Action are free (MIT). You pay only for Anthropic API tokens when you <code>generate</code>, <code>heal</code>, <code>refine</code>, or <code>triage</code>. Typical per-run cost: <strong>$0.02 (Haiku) to $0.25 (Opus)</strong>. Every command prints its exact cost at the end. Use <code>--max-cost $0.50</code> to cap spend per run.
+          </div>
+        </details>
+        <details>
+          <summary>Does my code or DOM get sent to Anthropic?</summary>
+          <div class="answer">
+            Yes, when you run commands that call Claude. The agent sends the page's ARIA accessibility tree (not full DOM) and screenshots to Anthropic's API. Anthropic's data policy: API traffic is not used for training. If you need full data sovereignty, the open-source CLI can be forked and pointed at a self-hosted model, though current prompts are tuned for Claude Opus 4.7.
+          </div>
+        </details>
+        <details>
+          <summary>Does this work with my existing Playwright setup?</summary>
+          <div class="answer">
+            Yes. Generated specs are standard <code>@playwright/test</code> files that run with <code>npx playwright test</code>. No runtime dependency on Promptomate once a test is written. You can edit specs by hand, mix them with manually-written tests, and keep your existing <code>playwright.config.ts</code>. We add lightweight dirs (<code>.promptomate/</code> for metadata, <code>tests/</code> for specs — the standard Playwright location).
+          </div>
+        </details>
+        <details>
+          <summary>Can non-engineers actually use this?</summary>
+          <div class="answer">
+            For generating and running tests — yes, via the web UI (<code>promptomate serve</code>) or the GitHub Action in their team's CI. Understanding failure triage output is a few minutes of training. Writing custom assertions still benefits from engineer review, but the mechanical parts (describing scenarios, running suites, checking whether something's broken) are open to everyone.
+          </div>
+        </details>
+        <details>
+          <summary>How is this different from Testim or Mabl?</summary>
+          <div class="answer">
+            <strong>Open source and local-first.</strong> Testim/Mabl are great but they're closed-source cloud products at $5k+/month for a small team. Your tests live in their UI, their cloud runs your browsers, their AI is proprietary. Promptomate is MIT code running on your machine with your API key. Your tests are TypeScript you commit to your own repo. Zero vendor lock-in.
+          </div>
+        </details>
+        <details>
+          <summary>What about flaky tests?</summary>
+          <div class="answer">
+            <code>promptomate triage</code> classifies failures as <strong>real bug / flake / dom drift</strong> by analyzing the test code + the actual failure output + a fresh screenshot. <code>--apply</code> automatically retries flakes with a short pause, heals DOM drift by regenerating the broken locators, and stops on real bugs. Your CI PR comment shows exactly what happened per test.
+          </div>
+        </details>
+        <details>
+          <summary>Which models does it support?</summary>
+          <div class="answer">
+            Default is Claude Opus 4.7 (best quality). Use <code>--model sonnet</code> for Sonnet 4.6 (~3× cheaper, still excellent for most flows) or <code>--model haiku</code> for Haiku 4.5 (fastest + cheapest, great for simple generation and triage). You can also set <code>PROMPTOMATE_MODEL</code> env var as a default.
+          </div>
+        </details>
+        <details>
+          <summary>Is there a hosted version I can try?</summary>
+          <div class="answer">
+            Not yet — the Team cloud tier is in active development (ETA ~6 weeks). For now, the fastest way to try it is <code>npm install -g promptomate</code> followed by <code>promptomate quickstart</code> (2-min interactive setup + a demo run). Or deploy the web UI to Render/Fly.io for your team — we include a one-click Blueprint.
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <div class="wrap">
+    <div class="final-cta">
+      <h2>Ready to try it?</h2>
+      <p>Install in 3 commands. First green test in 2 minutes.</p>
+      <div class="install">npm install -g promptomate</div>
+      <div class="cta-row">
+        <a href="https://github.com/guttaashok1/promptomate" class="btn btn-primary">View on GitHub</a>
+        <a href="https://www.npmjs.com/package/promptomate" class="btn btn-secondary">View on npm</a>
+      </div>
+    </div>
+  </div>
+
   <footer>
     <div class="wrap">
-      <div style="margin-bottom: 8px;">
+      <div class="links">
         <a href="https://github.com/guttaashok1/promptomate">GitHub</a> ·
         <a href="https://www.npmjs.com/package/promptomate">npm</a> ·
+        <a href="https://github.com/marketplace/actions/promptomate-ci">Marketplace</a> ·
         <a href="https://github.com/guttaashok1/promptomate/issues">Issues</a> ·
         <a href="https://github.com/guttaashok1/promptomate/blob/main/PLAN.md">Roadmap</a>
       </div>
-      <div>Built with Claude and Playwright · MIT license</div>
+      <div>MIT licensed · Built with Claude and Playwright</div>
     </div>
   </footer>
+
+  <script>
+    // Copy install command
+    function copyInstall() {
+      const cmd = document.getElementById("install-cmd").textContent;
+      navigator.clipboard.writeText(cmd).then(() => {
+        const btn = document.getElementById("copyBtn");
+        btn.textContent = "Copied!";
+        btn.classList.add("copied");
+        setTimeout(() => { btn.textContent = "Copy"; btn.classList.remove("copied"); }, 1500);
+      });
+    }
+
+    // Animated terminal
+    const term = document.getElementById("term");
+    const sequence = [
+      { t: 400, html: '<span class="prompt">$</span> <span class="cmd">promptomate explore "log in to saucedemo" --url https://www.saucedemo.com</span>\n' },
+      { t: 900, html: '<span class="muted">Exploring https://www.saucedemo.com ...</span>\n' },
+      { t: 600, html: '  <span class="arrow">→</span> browser_navigate <span class="ok">✓</span>\n' },
+      { t: 500, html: '  <span class="arrow">→</span> browser_snapshot <span class="ok">✓</span>\n' },
+      { t: 700, html: '  <span class="arrow">→</span> browser_fill_form <span class="ok">✓</span>\n' },
+      { t: 550, html: '  <span class="arrow">→</span> browser_click <span class="ok">✓</span>\n' },
+      { t: 450, html: '  <span class="arrow">→</span> browser_snapshot <span class="ok">✓</span>\n' },
+      { t: 700, html: '\n<span class="ok">✓ Generated tests/saucedemo-login.spec.ts</span>\n' },
+      { t: 400, html: '  <span class="muted">5 API calls · $0.23 · claude-opus-4-7</span>\n' },
+      { t: 1200, html: '\n<span class="prompt">$</span> <span class="cmd">npx playwright test saucedemo-login</span>\n' },
+      { t: 900, html: '\n  <span class="ok">✓ passed (1.5s)</span>\n' },
+      { t: 3000, clear: true },
+    ];
+
+    async function animateTerminal() {
+      while (true) {
+        term.innerHTML = '';
+        for (const step of sequence) {
+          if (step.clear) {
+            await new Promise(r => setTimeout(r, step.t));
+            term.innerHTML = '';
+            continue;
+          }
+          await new Promise(r => setTimeout(r, step.t));
+          term.innerHTML += step.html;
+        }
+      }
+    }
+    animateTerminal();
+  </script>
 </body>
 </html>
